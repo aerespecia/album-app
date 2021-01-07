@@ -25,6 +25,20 @@ Route::get('/', function () {
 $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', ['middleware' => ['api']], function (Router $api) {
     /*
+     * Unauthenticated routes
+     */
+        /*
+         * Photos
+         */
+        $api->group(['prefix' => 'photos'], function (Router $api) {
+            $api->get('/', 'App\Http\Controllers\PhotoController@index');
+            $api->get('/{id}', 'App\Http\Controllers\PhotoController@show');
+            $api->post('/', 'App\Http\Controllers\PhotoController@store');
+            $api->put('/{id}', 'App\Http\Controllers\PhotoController@update');
+            $api->delete('/{id}', 'App\Http\Controllers\PhotoController@delete');
+        });
+
+    /*
      * Authentication
      */
     $api->group(['prefix' => 'auth'], function (Router $api) {

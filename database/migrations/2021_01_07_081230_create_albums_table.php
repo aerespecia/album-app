@@ -18,6 +18,7 @@ class CreateAlbumsTable extends Migration
             $table->integer('_id');
             $table->integer('user_id');
             $table->string('title');
+            $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();
         });
     }

@@ -20,6 +20,7 @@ class CreatePhotosTable extends Migration
             $table->string('title');
             $table->string('url');
             $table->string('thumbnail_url');
+            $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();
         });
     }
