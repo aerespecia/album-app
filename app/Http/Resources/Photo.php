@@ -14,6 +14,12 @@ class Photo extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'album_id' => $this->album_id,
+            'title' => $this->title,
+            'url' => $this->url,
+            'thumbnail_url' => $this->thumbnail_url
+        ];
     }
 }

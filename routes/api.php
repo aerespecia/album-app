@@ -38,6 +38,17 @@ $api->version('v1', ['middleware' => ['api']], function (Router $api) {
             $api->delete('/{id}', 'App\Http\Controllers\PhotoController@delete');
         });
 
+        /*
+         * Albums
+         */
+        $api->group(['prefix' => 'albums'], function (Router $api) {
+            $api->get('/', 'App\Http\Controllers\AlbumController@index');
+            $api->get('/{id}', 'App\Http\Controllers\AlbumController@show');
+            $api->post('/', 'App\Http\Controllers\AlbumController@store');
+            $api->put('/{id}', 'App\Http\Controllers\AlbumController@update');
+            $api->delete('/{id}', 'App\Http\Controllers\AlbumController@delete');
+        });
+
     /*
      * Authentication
      */

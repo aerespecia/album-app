@@ -15,11 +15,11 @@ class CreatePhotosTable extends Migration
     {
         Schema::create('photos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('_id');
-            $table->integer('album_id');
-            $table->string('title');
-            $table->string('url');
-            $table->string('thumbnail_url');
+            $table->integer('_id')->default(0);
+            $table->integer('album_id')->default(0);
+            $table->string('title')->default("n/a");
+            $table->string('url')->default("n/a");
+            $table->string('thumbnail_url')->default("n/a");
             $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();
         });

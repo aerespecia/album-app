@@ -11,9 +11,17 @@ class Album extends Model
 
     protected $table = 'albums';
 
+    const USER_ID = "user_id";
+    const TITLE = "title";
+
     protected $fillable = [
         '_id',
         'user_id',
         'title'
     ];
+
+    public function photos()
+    {
+        return $this->hasMany('App\Models\Photo');
+    }
 }

@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Photo;
+use App\Http\Resources\Photo as PhotoResource;
+use App\Http\Resources\PhotoCollection;
 use Illuminate\Http\Request;
-use SebastianBergmann\CodeCoverage\Report\PHP;
 
 class PhotoController extends Controller
 {
@@ -17,7 +18,7 @@ class PhotoController extends Controller
     public function index()
     {
         $photos = Photo::all();
-        return $photos;
+        return new PhotoCollection($photos);
     }
 
     /**
@@ -29,13 +30,13 @@ class PhotoController extends Controller
     public function store(Request $request)
     {
         $photo = new Photo([
-            'album_id'=>$request->get(Photo::ALBUM_ID),
-            'title'=>$request->get(Photo::TITLE),
-            'url'=>$request->get(Photo::URL),
-            'thumbnail_url'=>$request->get(Photo::THUMBNAIL_URL),
+            Photo::ALBUM_ID=>$request->get(Photo::ALBUM_ID),
+            Photo::TITLE=>$request->get(Photo::TITLE),
+            Photo::URL=>$request->get(Photo::URL),
+            Photo::THUMBNAIL_URL=>$request->get(Photo::THUMBNAIL_URL),
         ]);
         $photo->save();
-        return $photo;
+        return new PhotoResource($photo);
     }
 
     /**
@@ -47,7 +48,7 @@ class PhotoController extends Controller
     public function show($id)
     {
         $photo = Photo::find($id);
-        return $photo;
+        return new PhotoResource($photo);
     }
 
     /**
@@ -65,7 +66,7 @@ class PhotoController extends Controller
         $photo->url = $request->get(Photo::URL);
         $photo->thumbnail_url = $request->get(Photo::THUMBNAIL_URL);
         $photo->save();
-        return $photo;
+        return new PhotoResource($photo);
     }
 
     /**
@@ -78,6 +79,6 @@ class PhotoController extends Controller
     {
         $photo = Photo::find($id);
         $photo->delete();
-        return $photo;
+        return new PhotoResource($photo);
     }
 }

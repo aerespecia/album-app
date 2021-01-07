@@ -2,28 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\AlbumCollection;
+use App\Http\Resources\Album as AlbumResource;
+use App\Models\Album;
 use Illuminate\Http\Request;
 
 class AlbumController extends Controller
 {
-    /**
-     * Display a listing of the resource.
+     /**
+     * Display all records of photos.
      *
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $albums = Album::all();
+        return new AlbumCollection($albums);
     }
 
     /**
@@ -34,7 +29,12 @@ class AlbumController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $album = new Album([
+            Album::USER_ID=>$request->get(Album::USER_ID),
+            Album::TITLE=>$request->get(Album::TITLE)
+        ]);
+        $album->save();
+        return new AlbumResource($album);
     }
 
     /**
@@ -45,18 +45,8 @@ class AlbumController extends Controller
      */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $album = Album::find($id);
+        return new AlbumResource($album);
     }
 
     /**
@@ -68,17 +58,24 @@ class AlbumController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $album = Album::find($id);
+        $album->user_id = $request->get(Album::USER_ID);
+        $album->title = $request->get(Album::TITLE);
+        $album->save();
+        return new AlbumResource($album);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Soft Deletes the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete($id)
     {
-        //
+        $album = Album::find($id);
+        $album->delete();
+        return new AlbumResource($album);
     }
+
 }

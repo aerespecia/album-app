@@ -14,10 +14,12 @@ class PhotoAlbumSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('albums')->truncate();
+        DB::table('photos')->truncate();
+
         $photosFromSource = Http::get('https://jsonplaceholder.typicode.com/photos')->json();
         $albumsFromSource = Http::get('https://jsonplaceholder.typicode.com/albums')->json();
-        //$photosChunk = array_chunk($photosFromSource, 500);
+
         for($i = 0; $i < 500; $i++) {
             Photo::insert([
                 '_id'=>$photosFromSource[$i]["id"],
